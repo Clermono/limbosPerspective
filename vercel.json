@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/api/evolve",
-      "destination": "api/evolve.py"
+      "destination": "/api/evolve.py"
     },
     {
-      "source": "/((?!api/).*)",
-      "destination": "api/index.py"
+      "source": "/",
+      "destination": "/api/index.py"
     }
   ]
 }
