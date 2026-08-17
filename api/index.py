@@ -9,6 +9,8 @@ class handler(BaseHTTPRequestHandler):
         
         if not html_content:
             html_content = "<h1>System is initializing. Check back in a few minutes!</h1>"
+        elif isinstance(html_content, bytes):
+            html_content = html_content.decode('utf-8')
 
         self.send_response(200)
         self.send_header('Content-Type', 'text/html; charset=utf-8')
