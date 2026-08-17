@@ -1,0 +1,15 @@
+name: Trigger Self-Evolving Loop
+
+on:
+  schedule:
+    # Runs every 4 hours
+    - cron: '0 */1 * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub UI anytime
+
+jobs:
+  ping-evolve:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call Vercel Evolve Endpoint
+        run: |
+          curl -X GET https://YOUR-VERCEL-APP-NAME.vercel.app/api/evolve
