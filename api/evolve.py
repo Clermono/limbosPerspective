@@ -67,7 +67,7 @@ class handler(BaseHTTPRequestHandler):
                 currHTML = """
                 <!DOCTYPE html>
                 <html>
-                <head><script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script></head>
+                <head><script src="https://cdn.tailwindcss.com"></script></head>
                 <body class="bg-black text-white p-10 font-mono">
                     <h1 class="text-3xl text-green-500">System Initializing...</h1>
                     <p>Waiting for the first evolution cycle.</p>
