@@ -12,4 +12,4 @@ jobs:
     steps:
       - name: Call Vercel Evolve Endpoint
         run: |
-          curl -X GET https://YOUR-VERCEL-APP-NAME.vercel.app/api/evolve
+          curl -X GET https://vercel.com/chae-studios/limbos-perspective
