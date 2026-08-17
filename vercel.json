@@ -1,12 +1,7 @@
 {
-  "rewrites": [
-    {
-      "source": "/api/evolve",
-      "destination": "/api/evolve.py"
-    },
-    {
-      "source": "/",
-      "destination": "/api/index.py"
+  "functions": {
+    "api/*.py": {
+      "runtime": "Python@3.9"
     }
-  ]
+  }
 }
