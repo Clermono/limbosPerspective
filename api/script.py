@@ -4,20 +4,20 @@ from google.genai import types
 from upstash_redis import Redis
 from http.server import BaseHTTPRequestHandler
 
-gemini_cilent = genai.Client(api_key = os.environ.get("GEMINI_API_KEY"))
+gemini_client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
 redis = Redis.from_env()
 
 def getNews():
     prompt = """
     Identify major breaking news happening right now in Science, Technology and Politics, 1 each.
-    Return a structed summary with headlines, short bullet points and overall societal mood.
+    Return a structured summary with headlines, short bullet points and overall societal mood.
     """
 
-    response = gemini_cilent.models.generate_content(
-        model = "gemini-3.6-flash",
-        contents = prompt,
-        config = types.GenerateContentConfig(
-            tools = [types.Tool(google_search = types.GoogleSearch())]
+    response = gemini_client.models.generate_content(
+        model="gemini-3.6-flash",
+        contents=prompt,
+        config=types.GenerateContentConfig(
+            tools=[types.Tool(google_search=types.GoogleSearch())]
         )
     )
 
@@ -34,7 +34,7 @@ def changeCode(currHTML, news):
     5. Be politically neutral and do not sugarcoat conflicts or depressing or otherwise negative political news.
     """
 
-    prompt = """
+    prompt = f"""
     - CURRENT WEBSITE STATE -
     {currHTML}
 
@@ -44,7 +44,7 @@ def changeCode(currHTML, news):
     Rewrite the website to add this new state.
     """
 
-    response = gemini_cilent.models.generate_content(
+    response = gemini_client.models.generate_content(
         model='gemini-3.6-flash',
         contents=prompt,
         config=types.GenerateContentConfig(
@@ -56,9 +56,11 @@ def changeCode(currHTML, news):
     clean_code = response.text.replace("```html", "").replace("```", "").strip()
     return clean_code
 
-class Handler(BaseHTTPRequestHandler):
+class handler(BaseHTTPRequestHandler):
     def do_GET(self):
-        currHTML = redis.get("site_html")
+        raw_html = redis.get("site_html")
+        currHTML = raw_html.decode("utf-8") if isinstance(raw_html, bytes) else raw_html
+
         if not currHTML:
             currHTML = """
             <!DOCTYPE html>
@@ -86,5 +88,3 @@ class Handler(BaseHTTPRequestHandler):
             self.send_header("Content-Type", "text/plain")
             self.end_headers()
             self.wfile.write(f"Loop failed: {str(e)}".encode("utf-8"))
-
-
