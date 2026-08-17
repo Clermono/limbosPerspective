@@ -1,7 +1,11 @@
 {
   "rewrites": [
     {
-      "source": "/",
+      "source": "/api/evolve",
+      "destination": "/api/evolve"
+    },
+    {
+      "source": "/((?!api/).*)",
       "destination": "/api/index"
     }
   ]
